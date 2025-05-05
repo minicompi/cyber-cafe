@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyber Café</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://i.imgur.com/mO4WkD1.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      color: #333;
+    }
+
+    header {
+      background-color: rgba(44, 44, 44, 0.9);
+      color: white;
+      text-align: center;
+      padding: 2em 0;
+      background-image: url('https://i.imgur.com/Xb8jH1z.png');
+      background-repeat: no-repeat;
+      background-size: 100px;
+      background-position: right 20px top 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    .container {
+      padding: 2em;
+      max-width: 1000px;
+      margin: auto;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5em;
+    }
+
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 1em;
+      text-align: center;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .product img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 0.5em;
+    }
+
+    .product h3 {
+      margin: 0.5em 0 0.2em;
+    }
+
+    .product button {
+      margin-top: 0.5em;
+      padding: 0.5em 1em;
+      background-color: #6f4e37;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .product button:hover {
+      background-color: #553c28;
+    }
+
+    .cart {
+      margin-top: 3em;
+      padding: 1em;
+      border: 2px dashed #6f4e37;
+      border-radius: 10px;
+      background-color: #fff;
+    }
+
+    .cart h2 {
+      margin-top: 0;
+    }
+
+    .cart-item {
+      margin-bottom: 0.5em;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Cyber Café</h1>
+  <p>Tu tienda online de café y postres</p>
+</header>
+
+<div class="container">
+  <h2>Menú</h2>
+  <div class="product-list" id="product-list"></div>
+
+  <div class="cart" id="cart">
+    <h2>Carrito</h2>
+    <div id="cart-items"></div>
+    <p><strong>Total: $<span id="total">0</span></strong></p>
+  </div>
+</div>
+
+<script>
+  const products = [
+    { name: "Coffee", price: 3, img: "https://i.imgur.com/rR9z7kR.png" },
+    { name: "Iced coffee", price: 3, img: "https://i.imgur.com/9o8T5q7.png" },
+    { name: "Milkshakes", price: 4, img: "https://i.imgur.com/V7UCVWa.png" },
+    { name: "Limonada", price: 1, img: "https://i.imgur.com/VTTgIQT.png" },
+    { name: "Galletas", price: 2, img: "https://i.imgur.com/nHugZcN.png" },
+    { name: "Brownies", price: 3, img: "https://i.imgur.com/Al7QKqq.png" },
+    { name: "Brownies con helado", price: 4, img: "https://i.imgur.com/Wc8QukC.png" },
+    { name: "Cupcakes", price: 1, img: "https://i.imgur.com/EgzPl8E.png" }
+  ];
+
+  const productList = document.getElementById("product-list");
+  const cartItems = document.getElementById("cart-items");
+  const totalElement = document.getElementById("total");
+
+  let cart = [];
+
+  function updateCart() {
+    cartItems.innerHTML = "";
+    let total = 0;
+    cart.forEach(item => {
+      total += item.price;
+      const div = document.createElement("div");
+      div.className = "cart-item";
+      div.textContent = `${item.name} - $${item.price}`;
+      cartItems.appendChild(div);
+    });
+    totalElement.textContent = total;
+  }
+
+  function addToCart(product) {
+    cart.push(product);
+    updateCart();
+  }
+
+  products.forEach(product => {
+    const div = document.createElement("div");
+    div.className = "product";
+    div.innerHTML = `
+      <img src="${product.img}" alt="${product.name}">
+      <h3>${product.name}</h3>
+      <p>Precio: $${product.price}</p>
+      <button onclick='addToCart(${JSON.stringify(product)})'>Agregar al carrito</button>
+    `;
+    productList.appendChild(div);
+  });
+</script>
+
+</body>
+</html>
